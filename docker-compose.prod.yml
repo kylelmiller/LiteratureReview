@@ -1,0 +1,60 @@
+version: "3.8"
+services:
+  literature-review:
+    build:
+      context: ./webservice
+      dockerfile: Dockerfile.prod
+    command: gunicorn litreviewapi.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 1
+    restart: on-failure
+    volumes:
+      - static_volume:/home/lr/web/staticfiles
+    expose:
+      - 8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+#    environment:
+#      AWS_ACCESS_KEY_ID:
+#      AWS_SECRET_ACCESS_KEY:
+#      AWS_REGION:
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/lr/web/staticfiles
+    ports:
+      - "6317:80"
+    depends_on:
+      - literature-review
+  postgres:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+  redis:
+    image: redis:6.2.6 # port 6379
+  kafka:
+    image: confluentinc/cp-kafka
+    hostname: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  zookeeper:
+    image: zookeeper
+    hostname: zookeeper
+    ports:
+      - "2181"
+volumes:
+  postgres_data:
+  static_volume:

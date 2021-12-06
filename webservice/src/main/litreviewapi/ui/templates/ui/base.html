@@ -1,0 +1,46 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'ui/shared.css' %}">
+        <title>{% block title %}Literature Review{% endblock %}</title>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div id="topbar" class="fixed">
+            <div class="topnav-left">
+                <div id="sidebar_toggle"></div>
+                <div id="product_name">Literature Review</div>
+            </div>
+            <div class="topnav-right">
+                {% if projects %}
+                    <select name="projects" id="projects" onchange="window.open(this.options[this.selectedIndex].value,'_top')">
+                        {% for avail_project in projects %}
+                            <option value="{% url 'ui_home' avail_project.id %}" {% if project.id == avail_project.id %}selected{% endif %}>{{ avail_project.name }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </div>
+        </div>
+        <div id="sidebar">
+            {% block sidebar %}
+                {% if project %}
+                    <a href="{% url 'ui_home' project.id %}">{{ project.name }}</a>
+                    <a href="{% url 'ui_project' project.id %}">Edit Project</a>
+                    <a href="{% url 'ui_label_documents' project.id %}">Label Documents</a>
+                    <a href="{% url 'ui_export_documents' project.id %}">Export Documents</a>
+                    <a href="{% url 'ui_create_project' %}">Create Project</a>
+
+                    <div>Positive labels: {{ project.positive_labels }}</div>
+                    <div>Negative labels: {{ project.negative_labels }}</div>
+                    <div>Total documents: {{ project.total_documents }}</div>
+                    <div>{% if project.estimated_positive %} Estimated positive: {{ project.estimated_positive }} {% endif %}</div>
+                {% else %}
+                    <a href="{% url 'ui_create_project' %}">Create Project</a>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

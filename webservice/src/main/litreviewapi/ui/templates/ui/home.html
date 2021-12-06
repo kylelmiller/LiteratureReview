@@ -1,0 +1,10 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Literature Review - {{ project.name }}{% endblock %}
+{% block head %}<link rel="stylesheet" type="text/css" href="/static/ui/home.css">{% endblock %}
+
+{% block content %}
+    {% if project %}
+        <div>Project creation date: {{ project.created_date }}</div>
+    {% endif %}
+{% endblock %}

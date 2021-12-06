@@ -1,0 +1,14 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Create Project{% endblock %}
+{% block head %}<link rel="stylesheet" type="text/css" href="/static/ui/createproject.css">{% endblock %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form action="{% url 'ui_create_project' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" value="" placeholder="Name" />
+        <input type="text" name="description" value="" placeholder="Description"/>
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}

@@ -1,0 +1,23 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'ui/shared.css' %}">
+        <title>Literature Review - Select Project</title>
+    </head>
+    <body>
+        <div id="topbar">
+        </div>
+        <div id="content">
+            {% if projects %}
+                <select name="projects" id="projects" onchange="window.open(this.options[this.selectedIndex].value,'_top')">
+                    <option disabled selected value> -- select a project -- </option>
+                    {% for avail_project in projects %}
+                        <option value="{% url 'ui_home' avail_project.id %}">{{ avail_project.name }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <a href="{% url 'ui_create_project' %}">Create Project</a>
+            {% endif %}
+        </div>
+    </body>
+</html>

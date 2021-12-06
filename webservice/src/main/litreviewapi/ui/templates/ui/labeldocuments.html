@@ -1,0 +1,23 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Create Project{% endblock %}
+{% block head %}<link rel="stylesheet" type="text/css" href="/static/ui/labeldocuments.css">{% endblock %}
+
+{% block content %}
+    {% if document %}
+    <form action="{% url 'ui_label_document' document.project.id document.id %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <legend><h1>{{ document.source_id }}: {{ document.title }}</h1></legend>
+            <p><h2>{{ document.journal }}, {{ document.publication_date }}</h2></p>
+            <p><h2>{{ document.authors }}</h2></p>
+            <p>{{ document.description }}</p>
+            <input type="submit" name="label" id="accept" value="Include">
+            <input type="submit" name="label" id="reject" value="Exclude">
+        </fieldset>
+    </form>
+    {% else %}
+    <p>No documents left to label.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+Django==3.2.8
+gunicorn==20.1.0
+eventlet==0.24.1
+psycopg2-binary==2.9.1
+redis==3.5.3
+confluent-kafka==1.4.2
+djangorestframework==3.12.4
+markdown==2.6.11
+django-filter==21.1

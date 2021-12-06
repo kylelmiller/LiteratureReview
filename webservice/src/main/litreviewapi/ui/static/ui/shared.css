@@ -1,0 +1,143 @@
+#topbar {
+  height: 40px;
+  background-color: #2acaea;
+  box-shadow: 0 4px 2px -2px gray;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+#sidebar_toggle {
+  background: #2acaea url("images/collapse_side_bar.jpg") no-repeat;
+  margin-top: 5px;
+  margin-left: 3px;
+  width: 30px;
+  height: 40px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+#product_name {
+  width: 240px;
+  margin-left: 7px;
+  margin-top: 2px;
+}
+
+.topnav-left {
+  float: left;
+}
+
+.topnav-left div {
+  float: left;
+  vertical-align;
+}
+
+.topnav-right {
+  float: right;
+  padding: 1px 5px;
+}
+
+#projects {
+  background-color: #8a61d3;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 8px 8px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+/* The side navigation menu */
+#sidebar {
+  margin: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  overflow: auto;
+  box-shadow: 4px 4px 2px -2px gray;
+  padding-bottom: 4px;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.hidden {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+/* Sidebar links */
+#sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+#sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* Links on mouse-over */
+#sidebar a:hover:not(.active) {
+  background-color: #8a61d3;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+#content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+#product_name {
+    color: white;
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    font-size: 30px;
+}
+
+select {
+ https://moderncss.dev/custom-select-styles-with-pure-css/
+}
+
+input[type=button], input[type=submit], button[type=submit], input[type=reset], .custom-file-upload {
+  background-color: #8a61d3;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+th {
+    color: #8a61d3;
+    size:
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  #sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  #sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  #sidebar a {
+    text-align: center;
+    float: none;
+  }
+}

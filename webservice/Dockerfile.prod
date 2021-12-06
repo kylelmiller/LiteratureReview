@@ -1,0 +1,62 @@
+###########
+# BUILDER #
+###########
+FROM python:3.9.6-alpine as builder
+LABEL Description="This container is used to start the literature review web service."
+WORKDIR /usr/src/literaturereview
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Dependencies
+RUN apk update \
+    && apk add postgresql-dev build-base python3-dev musl-dev
+RUN pip install --upgrade pip
+RUN pip install flake8==3.9.2
+COPY ./src/main/litreviewapi/ .
+RUN flake8 --ignore=E501,F401 .
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/literaturereview/wheels -r requirements.txt
+
+#########
+# FINAL #
+#########
+FROM python:3.9.6-alpine
+LABEL Description="This container is used to start the literature review web service."
+
+# create directory for the literature review user
+RUN mkdir -p /home/lr
+
+# create the literature review user
+RUN addgroup -S lr && adduser -S lr -G lr
+
+# create the appropriate directories
+ENV HOME=/home/lr
+ENV APP_HOME=/home/lr/web
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
+WORKDIR $APP_HOME
+
+# install dependencies
+RUN apk update && apk add libpq build-base librdkafka-dev
+COPY --from=builder /usr/src/literaturereview/wheels /wheels
+COPY --from=builder /usr/src/literaturereview/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+# copy entrypoint.prod.sh
+COPY ./entrypoint.prod.sh .
+RUN sed -i 's/\r$//g'  $APP_HOME/entrypoint.prod.sh
+RUN chmod +x  $APP_HOME/entrypoint.prod.sh
+
+# copy project
+COPY ./src/main/litreviewapi/ $APP_HOME
+
+# chown all the files to the lr user
+RUN chown -R lr:lr $APP_HOME
+
+# change to the lr user
+USER lr
+
+# run entrypoint.prod.sh
+ENTRYPOINT ["/home/lr/web/entrypoint.prod.sh"]

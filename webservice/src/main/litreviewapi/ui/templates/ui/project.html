@@ -1,0 +1,22 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Create Project{% endblock %}
+{% block head %}<link rel="stylesheet" type="text/css" href="/static/ui/createproject.css">{% endblock %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form action="{% url 'ui_project' project.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" value="{{ project.name }}" />
+        <input type="text" name="description" value="{{ project.description }}" />
+        <input type="submit" value="Save">
+    </form>
+    <form action="{% url 'ui_upload_documents' project.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="file-upload" class="custom-file-upload">
+            Select PubMed file
+        </label>
+        <input id="file-upload" type="file"/>
+        <button type="submit">Upload</button>
+    </form>
+{% endblock %}
