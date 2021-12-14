@@ -13,6 +13,18 @@ services:
       - postgres
       - redis
       - kafka
+  estimator-service:
+    build: ./estimatorservice
+    depends_on:
+      - literature-review
+      - redis
+      - kafka
+  order-service:
+    build: ./orderservice
+    depends_on:
+      - literature-review
+      - redis
+      - kafka
   postgres:
     image: postgres:13.0-alpine
     volumes:
