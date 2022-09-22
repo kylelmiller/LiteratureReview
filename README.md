@@ -1,6 +1,6 @@
 # Literature Review
 
-The purpose of this project is to ease the task of literature reviews. It uses linear regression to order unseen
+The purpose of this project is to ease the task of literature reviews. It uses logistic regression to order unseen
 documents and predict the number of remaining documents that would be included in the unlabeled set. The thought is that
 you can stop a literature review early while still including the vast majority of documents that should be included.
 There are other similar tasks this could assist with like the discovery phase of court proceedings.
